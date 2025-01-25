@@ -10,6 +10,7 @@ import {
 // Constants for the target size and game duration
 const TARGET_SIZE = 50; // constant size for the target
 const GAME_DURATION = 30; // seconds
+const TOP_AREA_HEIGHT = 80;
 
 // Get screen width and height dynamically using Dimensions API
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -20,7 +21,7 @@ const App = () => {
   const [targetPosition, setTargetPosition] = useState<{
     x: number;
     y: number;
-  }>({ x: 0, y: 0 });
+  }>({ x: screenWidth/2, y: screenHeight/2 });
   const [gameOver, setGameOver] = useState(false);
 
   // Timer effect (countdown)
@@ -51,10 +52,10 @@ const App = () => {
 
   // Get random position on the screen
   const getRandomPosition = (): { x: number; y: number } => {
-    const randomX = Math.floor(Math.random() * (screenWidth - TARGET_SIZE)); // Position within screen width minus target size
-    const randomY = Math.floor(Math.random() * (screenHeight - TARGET_SIZE)); // Position within screen height minus target size
+    const randomX = Math.floor(Math.random() * (screenWidth - TARGET_SIZE));
+    const randomY = Math.floor(Math.random() * (screenHeight - TARGET_SIZE - TOP_AREA_HEIGHT)) + TOP_AREA_HEIGHT;
     return { x: randomX, y: randomY };
-  };
+};
 
   return (
     <View style={styles.container}>
