@@ -23,9 +23,11 @@ const App = () => {
     y: number;
   }>({ x: screenWidth / 2, y: screenHeight / 2 });
   const [gameOver, setGameOver] = useState(false);
+  const [visible, setVisible] = useState(true);
 
 useEffect(() => {
   if (gameOver) {
+    setVisible(false);
     alert(`Game Over! Final Score: ${score}`); // Use the latest score here
   }
 }, [gameOver]); // Trigger alert only when gameOver changes
@@ -50,9 +52,16 @@ useEffect(() => {
   // Handle target tap (score and reset target position)
   const handleTargetTap = () => {
     if (gameOver) return;
-    setScore(score + 10); // Fixed 10 points for each tap
-    setTargetPosition(getRandomPosition());
+    setScore(score + 1); // Fixed 1 point for each tap
+    setVisible(false);
+
+    setTimeout(() => {
+      setTargetPosition(getRandomPosition());
+      setVisible(true);
+    }, 300);
   };
+
+
 
   // Get random position on the screen
   const getRandomPosition = (): { x: number; y: number } => {
@@ -69,7 +78,8 @@ useEffect(() => {
       <Text style={styles.score}>Score: {score}</Text>
       <Text style={styles.timer}>Time Left: {timer}s</Text>
 
-      <TouchableOpacity
+      {visible && (
+        <TouchableOpacity
         style={[
           styles.target,
           {
@@ -81,6 +91,7 @@ useEffect(() => {
         ]}
         onPress={handleTargetTap}
       />
+      )}
 
       {gameOver && <Text style={styles.gameOver}>Game Over!</Text>}
     </View>
@@ -108,6 +119,8 @@ const styles = StyleSheet.create({
   },
   target: {
     position: "absolute",
+    width: TARGET_SIZE,
+    height: TARGET_SIZE,
     borderRadius: TARGET_SIZE / 2, // Makes the target circular
     backgroundColor: "red",
   },
