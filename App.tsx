@@ -9,7 +9,7 @@ import {
 
 // Constants for the target size and game duration
 const TARGET_SIZE = 50; // constant size for the target
-const GAME_DURATION = 30; // seconds
+const GAME_DURATION = 5; // seconds
 const TOP_AREA_HEIGHT = 80;
 
 // Get screen width and height dynamically using Dimensions API
@@ -21,27 +21,31 @@ const App = () => {
   const [targetPosition, setTargetPosition] = useState<{
     x: number;
     y: number;
-  }>({ x: screenWidth/2, y: screenHeight/2 });
+  }>({ x: screenWidth / 2, y: screenHeight / 2 });
   const [gameOver, setGameOver] = useState(false);
 
-  // Timer effect (countdown)
-  useEffect(() => {
-    if (gameOver) return;
+useEffect(() => {
+  if (gameOver) {
+    alert(`Game Over! Final Score: ${score}`); // Use the latest score here
+  }
+}, [gameOver]); // Trigger alert only when gameOver changes
 
-    const timerInterval = setInterval(() => {
-      setTimer((prevTimer) => {
-        if (prevTimer <= 1) {
-          clearInterval(timerInterval);
-          setGameOver(true);
-          alert(`Game Over! Final Score: ${score}`);
-          return 0;
-        }
-        return prevTimer - 1;
-      });
-    }, 1000);
+useEffect(() => {
+  if (gameOver) return;
 
-    return () => clearInterval(timerInterval);
-  }, [score, gameOver]);
+  const timerInterval = setInterval(() => {
+    setTimer((prevTimer) => {
+      if (prevTimer <= 1) {
+        clearInterval(timerInterval);
+        setGameOver(true); // gameOver state triggers the alert
+        return 0;
+      }
+      return prevTimer - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(timerInterval);
+}, [gameOver]);
 
   // Handle target tap (score and reset target position)
   const handleTargetTap = () => {
@@ -53,9 +57,12 @@ const App = () => {
   // Get random position on the screen
   const getRandomPosition = (): { x: number; y: number } => {
     const randomX = Math.floor(Math.random() * (screenWidth - TARGET_SIZE));
-    const randomY = Math.floor(Math.random() * (screenHeight - TARGET_SIZE - TOP_AREA_HEIGHT)) + TOP_AREA_HEIGHT;
+    const randomY =
+      Math.floor(
+        Math.random() * (screenHeight - TARGET_SIZE - TOP_AREA_HEIGHT)
+      ) + TOP_AREA_HEIGHT;
     return { x: randomX, y: randomY };
-};
+  };
 
   return (
     <View style={styles.container}>
