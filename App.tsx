@@ -62,11 +62,13 @@ const App = () => {
     <View style={styles.container}>
       <Scoreboard score={score} />
       <Timer timer={timer} />
-      <Target
-        position={targetPosition}
-        onTap={handleTargetTap}
-        visible={visible}
-      />
+      {!gameOver && (
+        <Target
+          position={targetPosition}
+          onTap={handleTargetTap}
+          visible={visible}
+        />
+      )}
     </View>
   );
 };

@@ -11,7 +11,7 @@ interface TargetProps {
 
 const Target: React.FC<TargetProps> = ({ position, onTap, visible }) => {
   if (!visible) return null;
-
+  
   return (
     <TouchableOpacity
       style={[
