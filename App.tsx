@@ -4,8 +4,9 @@ import Target from "./src/components/Target";
 import Scoreboard from "./src/components/Scoreboard";
 import Timer from "./src/components/Timer";
 import { getRandomPosition } from "./src/utils/getRandomPosition";
+import { getPoints } from "./src/utils/getPoints";
 
-const GAME_DURATION = 5;
+const GAME_DURATION = 30;
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
 const TARGET_SIZE = 50;
 const TOP_AREA_HEIGHT = 80;
@@ -46,10 +47,10 @@ const App = () => {
   }, [gameOver]);
 
   // Handle target tap
-  const handleTargetTap = () => {
+  const handleTargetTap = (size: number) => {
     if (gameOver) return;
 
-    setScore(score + 1);
+    setScore(score + getPoints(size));
     setVisible(false);
 
     setTimeout(() => {
