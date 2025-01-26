@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native";
+import styles from "../../Styles";
 
 const MIN_SIZE = 10; // Minimum target size
 const MAX_SIZE = 100; // Maximum target size
@@ -53,11 +54,6 @@ const Target: React.FC<TargetProps> = ({ position, onTap, visible }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  target: {
-    position: "absolute",
-    backgroundColor: "red",
-  },
-});
+
 
 export default Target;

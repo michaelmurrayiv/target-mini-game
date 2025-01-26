@@ -1,27 +1,16 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-
+import styles from "../../Styles";
 interface TimerProps {
   timer: number;
 }
 
 const Timer: React.FC<TimerProps> = ({ timer }) => {
   return (
-    <View style={styles.container}>
+    <View style={styles.timerContainer}>
       <Text style={styles.timer}>Time Left: {timer}s</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 40,
-    right: 20,
-  },
-  timer: {
-    fontSize: 24,
-  },
-});
 
 export default Timer;

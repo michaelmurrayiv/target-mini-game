@@ -5,6 +5,7 @@ import Scoreboard from "./src/components/Scoreboard";
 import Timer from "./src/components/Timer";
 import { getRandomPosition } from "./src/utils/getRandomPosition";
 import { getPoints } from "./src/utils/getPoints";
+import styles from "./Styles";
 
 const GAME_DURATION = 30;
 const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
@@ -74,11 +75,5 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-});
 
 export default App;
