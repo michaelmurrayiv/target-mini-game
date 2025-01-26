@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Alert, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Target from "./src/components/Target";
 import Scoreboard from "./src/components/Scoreboard";
 import Timer from "./src/components/Timer";
 import { getRandomPosition } from "./src/utils/getRandomPosition";
 import { getPoints } from "./src/utils/getPoints";
-import styles from "./Styles";
+import GameAlert from "./src/components/GameAlert";
 
 const GAME_DURATION = 30;
-const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-const TARGET_SIZE = 50;
-const TOP_AREA_HEIGHT = 80;
 
 const App = () => {
   const [score, setScore] = useState(0);
@@ -18,16 +15,15 @@ const App = () => {
   const [targetPosition, setTargetPosition] = useState(getRandomPosition());
   const [gameOver, setGameOver] = useState(false);
   const [visible, setVisible] = useState(true);
-
+  const [alertVisible, setAlertVisible] = useState(false);
+  
   // Use useRef to track the latest score value
   const scoreRef = useRef(score);
-
-  // Update scoreRef whenever score changes
   useEffect(() => {
     scoreRef.current = score;
   }, [score]);
 
-  // Timer effect
+  // timer countdown effect
   useEffect(() => {
     if (gameOver) return;
 
@@ -36,8 +32,7 @@ const App = () => {
         if (prev <= 1) {
           clearInterval(timerInterval);
           setGameOver(true);
-          // Using scoreRef to access the latest score
-          Alert.alert("Game Over", `Final Score: ${scoreRef.current}`);
+          setAlertVisible(true);
           return 0;
         }
         return prev - 1;
@@ -47,7 +42,7 @@ const App = () => {
     return () => clearInterval(timerInterval);
   }, [gameOver]);
 
-  // Handle target tap
+  // handle target tap
   const handleTargetTap = (size: number) => {
     if (gameOver) return;
 
@@ -60,10 +55,19 @@ const App = () => {
     }, 300);
   };
 
+    const handleCloseAlert = () => {
+      setAlertVisible(false);
+      setScore(0);
+      setTimer(GAME_DURATION);
+      setGameOver(false);
+    };
+
   return (
     <View style={styles.container}>
-      <Scoreboard score={score} />
-      <Timer timer={timer} />
+      <View style={styles.scoreboard}>
+        <Scoreboard score={score} />
+        <Timer timer={timer} />
+      </View>
       {!gameOver && (
         <Target
           position={targetPosition}
@@ -71,9 +75,29 @@ const App = () => {
           visible={visible}
         />
       )}
+      <GameAlert
+        visible={alertVisible}
+        score={score}
+        onClose={handleCloseAlert}
+      />
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#F2F2F2",
+  },
+  scoreboard: {
+    position: "absolute",
+    top: 40,
+    left: 20,
+    right: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+});
 
 export default App;

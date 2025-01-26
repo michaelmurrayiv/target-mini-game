@@ -1,3 +1,4 @@
+// calculate points based on the size of the target
 export const getPoints = (size: number): number => {
   if (size >= 10 && size <= 20) return 10;
   if (size >= 21 && size <= 30) return 9;
