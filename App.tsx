@@ -6,8 +6,10 @@ import Timer from "./src/components/Timer";
 import { getRandomPosition } from "./src/utils/getRandomPosition";
 import { getPoints } from "./src/utils/getPoints";
 import GameAlert from "./src/components/GameAlert";
-
+import { Audio } from "expo-av";
 const GAME_DURATION = 30;
+
+
 
 const App = () => {
   const [score, setScore] = useState(0);
@@ -16,7 +18,45 @@ const App = () => {
   const [gameOver, setGameOver] = useState(false);
   const [visible, setVisible] = useState(true);
   const [alertVisible, setAlertVisible] = useState(false);
-  
+  const [targetSound, setTargetSound] = useState<Audio.Sound | null>(null);
+  const [backgroundMusic, setBackgroundMusic] = useState<Audio.Sound | null>(null);
+
+  // Preload sounds
+  useEffect(() => {
+    const loadSounds = async () => {
+      const targetSound = new Audio.Sound();
+      const backgroundMusic = new Audio.Sound();
+
+      // Load target sound and background music
+      await targetSound.loadAsync(require("./assets/sounds/targetSound.wav"));
+      await backgroundMusic.loadAsync(
+        require("./assets/sounds/backgroundMusic.wav")
+      );
+
+      // Loop background music
+      await backgroundMusic.setIsLoopingAsync(true);
+      await backgroundMusic.playAsync(); // Play background music immediately
+
+      setTargetSound(targetSound);
+      setBackgroundMusic(backgroundMusic);
+
+      await backgroundMusic.setVolumeAsync(0.1);
+      await targetSound.setVolumeAsync(0.5);
+    };
+
+    loadSounds();
+
+    return () => {
+      // Unload sounds when component unmounts
+      if (targetSound) {
+        targetSound.unloadAsync();
+      }
+      if (backgroundMusic) {
+        backgroundMusic.unloadAsync();
+      }
+    };
+  }, []);
+
   // Use useRef to track the latest score value
   const scoreRef = useRef(score);
   useEffect(() => {
@@ -42,9 +82,25 @@ const App = () => {
     return () => clearInterval(timerInterval);
   }, [gameOver]);
 
+  useEffect(() => {
+    const controlBackgroundMusic = async () => {
+      if (timer > 0 && backgroundMusic) {
+        await backgroundMusic.playAsync();
+        await backgroundMusic.setIsLoopingAsync(true);
+      } else if (backgroundMusic) {
+        await backgroundMusic.pauseAsync();
+      }
+    };
+
+    controlBackgroundMusic();
+  }, [timer, backgroundMusic]);
+
   // handle target tap
   const handleTargetTap = (size: number) => {
     if (gameOver) return;
+    
+
+    targetSound?.replayAsync();
 
     setScore(score + getPoints(size));
     setVisible(false);
