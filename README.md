@@ -15,24 +15,21 @@ This project is a simple, tap-based game created using **React Native** and **Ty
 ### 2. User Interface:
 - **Score Counter**: Displays the player’s current score at the top of the screen.
 - **Timer**: Shows the remaining time for the game session.
-- **Target**: A circular shape (starting at **50px** in diameter) that the player taps to score points.
+- **Target**: A circular shape (starting at **10px** in diameter) that the player taps to score points.
 
 ### 3. Target Behavior:
 - The target appears at a random position on the screen after every tap.
 - It has a brief disappearance (300ms) to simulate a "reappearing" effect.
-
+- The target begins at **10px** in diameter and grows by **1px** every **50ms**.
+- If the target reaches **100px** without being tapped, it resets to a random position at **10px**.
+  
 ### 4. Game Over:
 - When the timer reaches zero:
   - An alert pops up showing the final score.
   - The target disappears, and the game stops.
+  - The game may be restarted using the replay button. 
 
-## Bonus Challenge: Dynamic Target Size and Scoring
-
-### 1. Target Growth:
-- The target begins at **10px** in diameter and grows by **1px** every **50ms**.
-- If the target reaches **100px** without being tapped, it resets to a random position at **10px**.
-
-### 2. Scoring System:
+### 5. Scoring System:
 - The point value decreases as the target grows:
   - **10-20px**: 10 points
   - **21-30px**: 9 points
@@ -43,10 +40,6 @@ This project is a simple, tap-based game created using **React Native** and **Ty
   - **71-80px**: 4 points
   - **81-90px**: 3 points
   - **91-100px**: 2 points
-
-### 3. Player Interaction:
-- Players tap the target to earn points based on its size at the moment of tapping.
-- After each successful tap, the target resets to a random position and restarts at **10px**.
 
 ## Technical Details
 
