@@ -22,15 +22,18 @@ const Target: React.FC<TargetProps> = ({ position, onTap, visible }) => {
     // increment size
     const interval = setInterval(() => {
       setSize((prevSize) => {
-        if (prevSize >= MAX_SIZE) {
-          return MAX_SIZE;
+        if (prevSize > MAX_SIZE) {
+          setTimeout(() => {
+            onTap(prevSize); // reset target
+          }, 0);
+          return MIN_SIZE;
         }
         return prevSize + GROWTH_RATE;
       });
     }, GROWTH_INTERVAL);
 
     return () => clearInterval(interval); // cleanup
-  }, [visible]);
+  }, [visible, onTap]);
 
   if (!visible) return null;
 

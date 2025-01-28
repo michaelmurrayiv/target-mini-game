@@ -57,6 +57,19 @@ const App = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const controlBackgroundMusic = async () => {
+      if (timer > 0 && backgroundMusic) {
+        await backgroundMusic.playAsync();
+        await backgroundMusic.setIsLoopingAsync(true);
+      } else if (backgroundMusic) {
+        await backgroundMusic.pauseAsync();
+      }
+    };
+
+    controlBackgroundMusic();
+  }, [timer, backgroundMusic]);
+  
   // Use useRef to track the latest score value
   const scoreRef = useRef(score);
   useEffect(() => {
@@ -82,18 +95,7 @@ const App = () => {
     return () => clearInterval(timerInterval);
   }, [gameOver]);
 
-  useEffect(() => {
-    const controlBackgroundMusic = async () => {
-      if (timer > 0 && backgroundMusic) {
-        await backgroundMusic.playAsync();
-        await backgroundMusic.setIsLoopingAsync(true);
-      } else if (backgroundMusic) {
-        await backgroundMusic.pauseAsync();
-      }
-    };
 
-    controlBackgroundMusic();
-  }, [timer, backgroundMusic]);
 
   // handle target tap
   const handleTargetTap = (size: number) => {
