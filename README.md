@@ -1,63 +1,63 @@
-# Randomly Appearing Target Mini-Game
+Randomly Appearing Target Mini-Game
 
-## Overview
+Overview  
+This is a simple tap-based game built with React Native and TypeScript for iOS. The goal is to tap a randomly appearing target before it grows too large, earning points based on its size. The game demonstrates handling dynamic UI elements, animations, and user interactions in a mobile app.
 
-This project is a simple, tap-based game created using **React Native** and **TypeScript**. The player needs to tap a randomly appearing target (a circle) as many times as possible within a set time limit. The target grows in size as time progresses, and its point value decreases as it grows. This mini-game was developed to demonstrate my proficiency with React Native, TypeScript, and handling dynamic UI elements in a mobile app.
+How to Play
 
-## Game Features
+- Tap the circle when it appears on the screen.
+- The circle grows in size over time, reducing its point value.
+- If it reaches 100px without being tapped, it resets to 10px at a new random position.
+- The game lasts 30 seconds, and the final score is displayed at the end.
+- Press the replay button to restart.
 
-### 1. Gameplay:
-- A single target (a circle) randomly appears at various positions on the screen.
-- Each time the player taps the target, it disappears briefly (300ms) and reappears in a new random location.
-- The player earns one point for each successful tap.
-- The game lasts for a fixed duration of **30 seconds**.
+Scoring System
 
-### 2. User Interface:
-- **Score Counter**: Displays the player’s current score at the top of the screen.
-- **Timer**: Shows the remaining time for the game session.
-- **Target**: A circular shape (starting at **10px** in diameter) that the player taps to score points.
+- 10-20px: 10 points
+- 21-30px: 9 points
+- 31-40px: 8 points
+- 41-50px: 7 points
+- 51-60px: 6 points
+- 61-70px: 5 points
+- 71-80px: 4 points
+- 81-90px: 3 points
+- 91-100px: 2 points
 
-### 3. Target Behavior:
-- The target appears at a random position on the screen after every tap.
-- It has a brief disappearance (300ms) to simulate a "reappearing" effect.
-- The target begins at **10px** in diameter and grows by **1px** every **50ms**.
-- If the target reaches **100px** without being tapped, it resets to a random position at **10px**.
-  
-### 4. Game Over:
-- When the timer reaches zero:
-  - An alert pops up showing the final score.
-  - The target disappears, and the game stops.
-  - The game may be restarted using the replay button. 
+Running the App (iOS)
 
-### 5. Scoring System:
-- The point value decreases as the target grows:
-  - **10-20px**: 10 points
-  - **21-30px**: 9 points
-  - **31-40px**: 8 points
-  - **41-50px**: 7 points
-  - **51-60px**: 6 points
-  - **61-70px**: 5 points
-  - **71-80px**: 4 points
-  - **81-90px**: 3 points
-  - **91-100px**: 2 points
+Prerequisites
 
-## Technical Details
+- Node.js (Check with "node -v")
+- Expo CLI (Install with "npm install -g expo-cli")
+- Xcode (For iOS simulator)
 
-### 1. React Native & TypeScript:
-- This game was developed using **React Native** for cross-platform mobile development.
-- **TypeScript** was used for static typing and to ensure better code quality, offering clear development structure and preventing type-related bugs.
+Installation and Running
 
-### 2. Game Logic:
-- The game's logic involves handling random positioning, dynamic resizing, time tracking, and user input (tap events).
-- The target growth and scoring system are implemented using React's **state** and **effect hooks** to track and update the target's size, position, and score dynamically.
+Running on iOS Simulator
 
-### 3. User Interface:
-- The UI is built using React Native components such as `View`, `Text`, and `TouchableOpacity` to structure the game interface.
-- The target itself is a simple `View` styled as a circle, and its position and size are managed using the `position` and `transform` styles.
+1. Clone the repository:  
+   git clone https://github.com/your-repo/random-target-game.git
+2. Navigate to the project folder:  
+   cd target-mini-game
+3. Install Node.js and npm if not already installed
+4. Run the expo simulator:  
+   npx expo start
+5. Open iOS simulator by pressing 'i' or scan the QR code on the Expo Go Mobile app
 
-## Installation & Setup
+Running on iPhone (Expo Go)
 
-1. Ensure that you have **Node.js** installed on your computer. You can check the installation with:
-   ```bash
-   node -v
-   npm -v
+1. Start the Expo server:  
+   npm start
+2. Open Expo Go on your iPhone and scan the QR code.
+
+Technical Details
+
+- Built with React Native and TypeScript.
+- Uses state and effect hooks (useState, useEffect) for animations and scoring.
+- The UI is dynamically updated based on user interactions.
+
+Challenges Faced
+
+1. Organizing Stylesheets – Initially considered a global stylesheet but opted for component-specific styles.
+2. Audio Issues – Sound does not play on iPhone unless silent mode is off in Expo Go.
+3. Screen Size Differences – Scaled elements based on my phone, which looked slightly off on the iOS simulator.
